@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find mira_picker)/rviz/urdf.rviz" />
+  <arg name="dentist_camera" default="false" />
+  <arg name="gripper_name" default="robotiq2f_85" /> <!-- robotiq2f_85, robotiq2f_140-->
+  <arg name="publish_joint_state" default="true" />
+  <arg name="publish_robot_state" default="true" />
+  <arg name="model" default="$(find mira_picker)/urdf/mira_picker_$(arg gripper_name).urdf.xacro"/>
+
+  <param name="robot_description" command="$(find xacro )/xacro $(arg model) dentist_camera:=$(arg dentist_camera)" />
+
+  <node if="$(arg publish_joint_state)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node if="$(arg publish_robot_state)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+</launch>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="paused" default="true"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="node_start_delay" default="2.0"/>
+  <arg name="publish_joint_state" default="0"/>
+  <arg name="publish_robot_state" default="0"/>
+  <arg name="dentist_camera" default="false" />
+  <arg name="gripper_name" default="robotiq2f_85" /> <!-- robotiq2f_85, robotiq2f_140-->
+  <arg name="urdf_path" default="$(find mira_picker)/robots/mira_picker_$(arg gripper_name).gazebo.urdf.xacro"/>
+  
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="$(find mira_picker)/worlds/mira_cup.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <!-- send robot urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg urdf_path) dentist_camera:=$(arg dentist_camera)"  />
+  <node if="$(arg publish_joint_state)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node if="$(arg publish_robot_state)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <rosparam file="$(find mira_picker)/controller/ros_controllers.yaml" command="load"/>
+  <!-- <rosparam file="$(find mira_picker)/controller/gazebo_ros_control_params.yaml" command="load"/> -->
+
+  <!-- push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -x 0 -y 0 -z 0.0 "
+    respawn="false" output="screen" />
+
+     
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" ns="/"
+		args="
+			mira/joint_state_controller
+			mira/joint_trajectory_arm_controller
+		" /> -->
+<!--   <include file="$(find mira_moveit_config)/launch/ros_controllers.launch"/>
+ 
+ -->
+</launch>

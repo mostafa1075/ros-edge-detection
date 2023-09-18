@@ -1,0 +1,6 @@
+<launch>
+<node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0146510252933 -0.0193687975786 0.027627482712  0.0592203361182 -1.49603558802 -0.02519247363 camera_calibration_link camera_color_optical_frame" />
+<!-- 0.731687 0.0394816 -0.680369 -0.0131751 above quaternion is from eigen in the form qw, qx, qz, qz -->
+<!-- euler  angles in ypr form 0.510967 -1.48922 0.43642-->
+</launch>

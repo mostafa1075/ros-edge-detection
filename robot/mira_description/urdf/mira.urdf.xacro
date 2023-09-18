@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="parameter_file_name" default="mira_nominal"/>
+  <xacro:include filename="$(find mira_description)/urdf/mira_macro.xacro" />
+  <!-- arm -->
+  
+  <xacro:mira_robot prefix="$(arg prefix)"
+                    parameter_file_name = "$(arg parameter_file_name)"/>
+
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "$(arg prefix)root_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

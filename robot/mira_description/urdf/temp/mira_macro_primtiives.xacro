@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<robot name="mira" xmlns:xacro="http://wiki.ros.org/xacro" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" >
+   
+
+  	<xacro:macro name="mira_robot" params="prefix ">
+
+		<material name="blue">
+			<color rgba="0 0 0.8 1"/>
+		</material>
+
+		<material name="white">
+			<color rgba="1 1 1 1"/>
+		</material>
+
+		<material name="MelonYellow">
+			<color rgba="1.0 0.6 0.0 1.0" />
+		</material>
+
+		<link name="${prefix}root_link">
+		</link>
+		<joint name="${prefix}root_joint" type="fixed">  <!-- joint1 base_to_right_leg 0.2945 -->
+			<origin rpy="0 0 0" xyz="0 0 0.0" />
+			<axis xyz="0 0 1" />
+			<parent link="${prefix}root_link"/>
+			<child link="${prefix}base_link"/>
+		</joint>
+
+		<link name="${prefix}base_link">  <!-- link0 -->
+		<inertial>
+			<mass value="9.287" />
+			<origin rpy="0 0 0" xyz="0.001152 0.008431 0.090866" />
+			<!-- did not chenge inertia values -->
+			<inertia ixx="0.060447670" ixy="-0.000674868"  ixz="0.000599404"
+									iyy="0.048682260" iyz="0.003518544"
+														izz="0.067886926" />
+		</inertial>
+		<visual>
+			<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+				<mesh filename="package://mira_description/meshes/mira/Link0.stl"/>
+				</geometry>
+			<material name="blue"/>
+		</visual>
+		<collision>
+			<origin rpy="0 0 0" xyz="0 0 0.05" />
+			<geometry>
+				<cylinder length="0.1" radius="0.12"/>
+			</geometry>
+		</collision>
+		</link>
+
+		<link name="${prefix}link1">  <!-- link1 right_leg-->
+		<inertial> 
+			<mass value="8.459" />
+			<origin rpy="0 0 0" xyz="-0.000000   -0.017180   -0.094023" />
+			<inertia ixx="0.113743317" ixy="0.000001208"  ixz="0.000009013"
+									iyy="0.091995793"    		iyz="0.013664636"
+																izz="0.050460461" />
+		</inertial>
+		<visual>
+			<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+				<mesh filename="package://mira_description/meshes/mira/Link1.stl"/>
+				</geometry>
+			<material name="white"/>
+		</visual>
+		<collision>
+			<origin rpy="0 0 0" xyz="0 0 -0.04" />
+			<geometry>
+				<box size="0.178 0.205 0.263" />
+			</geometry>
+		</collision>
+		</link>
+
+		<joint name="${prefix}joint1" type="revolute">  <!-- joint1 base_to_right_leg 0.2945 -->
+			<origin rpy="0 0 0" xyz="0 0 0.352" />
+			<axis xyz="0 0 1" />
+			<limit lower="-4.7139" upper="4.7139" effort="1260" velocity="7.60" />
+			<parent link="${prefix}base_link"/>
+			<child link="${prefix}link1"/>
+		</joint>
+
+
+		<link name="${prefix}link2">  <!-- link2 right_base -->
+			<inertial> 
+				<mass value="10.765" />
+				<origin rpy="0 0 0" xyz="0.000037   -0.027314   0.0004575" />
+				<inertia ixx="0.081072724" ixy="-0.000009804" ixz="0.000001496"
+									iyy="0.042841834"        iyz="-0.001181014"
+																izz="0.086368018" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+				<mesh filename="package://mira_description/meshes/mira/Link2.stl"/>
+				</geometry>
+				<material name="blue"/>
+			</visual>
+			<collision>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+				<box size="0.188 0.205 0.213" />
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${prefix}joint2" type="revolute">  <!-- joint2 right_base_joint -->
+			<origin rpy="-1.5708 0 0" xyz="0 0 0" /> <!-- or: 0 -1.5708 1.5708 or: 1.5708 -1.5708 0 up: -1.5708 0 0-->
+			<axis xyz="0 0 1" />
+			<limit lower="-2.11" upper="2.11" effort="710" velocity="7.16" />
+			<safety_controller k_position="100" k_velocity="2" soft_lower_limit="-2.05948851735" soft_upper_limit="2.05948851735" />
+			<dynamics damping="13.0" friction="9.0" />
+			<parent link="${prefix}link1"/>
+			<child link="${prefix}link2"/>
+		</joint>
+
+		<link name="${prefix}link3">  <!-- link3 right_front_wheel -->
+			<inertial> 
+				<mass value="8.349" />
+				<origin rpy="0 0 0" xyz="-0.000001   -0.013598   -0.290813" />
+				<inertia ixx="0.392336377" ixy="-0.000003048" ixz="-0.000000326"
+										iyy="0.380066908"      iyz="0.028145369"
+																izz="0.029166930" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://mira_description/meshes/mira/Link3.stl"/>
+				</geometry>
+				<material name="white"/>
+			</visual>
+			<collision>
+				<origin rpy="0 0 0" xyz="0 0 -0.33" />
+				<geometry>
+					<cylinder length="0.4" radius="0.07"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${prefix}joint3" type="revolute">  <!-- joint3 right_front_wheel_joint -->
+			<origin rpy="1.5708 0 0" xyz="0 -0.7 0" /> <!-- thin left: 1.5708 3.1416 0  -->
+			<axis xyz="0 0 1" />
+			<limit lower="-4.7139" upper="4.7139" effort="380" velocity="9.43" />
+			<safety_controller k_position="100" k_velocity="2" soft_lower_limit="-2.05948851735" soft_upper_limit="2.05948851735" />
+			<dynamics damping="10.0" friction="4.5" />
+			<parent link="${prefix}link2"/>
+			<child link="${prefix}link3"/>
+		</joint>
+
+		<link name="${prefix}link4">  <!-- link4 right_back_wheel -->
+			<inertial> 
+				<mass value="3.492" />
+				<origin rpy="0 0 0" xyz="-0.000   -0.022   -0.005" />
+				<inertia ixx="0.020" ixy="0.000"  ixz="0.000"
+										iyy="0.011"            iyz="0.001"
+																	izz="0.020" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://mira_description/meshes/mira/Link4.stl" />
+				</geometry>
+				<material name="blue"/>
+			</visual>
+			<collision>
+				<origin rpy="0 0 0" xyz="0.004 0 0" />
+				<geometry>
+					<box size="0.118 0.134 0.1464" />
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${prefix}joint4" type="revolute">  <!-- joint4 right_back_wheel_joint -->
+			<origin rpy="-1.5708 0 0" xyz="0 0 0" />
+			<axis xyz="0 0 1" />
+			<limit lower="-2.61" upper="2.61" effort="70" velocity="17.4" />
+			<safety_controller k_position="100" k_velocity="2" soft_lower_limit="-2.05948851735" soft_upper_limit="2.05948851735" />
+			<dynamics damping="2.5" friction="4.0" />
+			<parent link="${prefix}link3" />
+			<child link="${prefix}link4" />
+		</joint>
+
+		<link name="${prefix}link5">  <!-- link5 left_leg -->
+			<inertial> 
+				<mass value="5.754" /> 
+				<origin rpy="0 0 0" xyz="-0.000057   0.053098   -0.273990" />
+				<inertia ixx="1.449365143" ixy="0.000018591"  ixz="0.000039466"
+											iyy="1.438364393"          iyz="-0.060563427"
+																		izz="1.151203697" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://mira_description/meshes/mira/Link5.stl" />
+				</geometry>
+				<material name="white"/>
+			</visual>
+			<collision>
+				<origin rpy="-0.27 0 0" xyz="0 0.04 -0.27" />
+				<geometry>
+					<box size="0.11 0.09 0.45" />
+				</geometry>            
+				<!-- 
+				<origin rpy="0 0 0" xyz="0 0 -0.23" />
+				<geometry>
+					<cylinder length="0.46" radius="0.115" />
+				</geometry> -->
+			</collision>
+		</link>
+
+		<joint name="${prefix}joint5" type="revolute">  <!-- joint5 base_to_left_leg -0.65 -->
+			<origin rpy="1.5708 0 0" xyz="0 -0.7 0" />
+			<axis xyz="0 0 1" />
+			<limit lower="-4.7139" upper="4.7139" effort="80" velocity="18.6" />
+			<safety_controller k_position="100" k_velocity="2" soft_lower_limit="-2.05948851735" soft_upper_limit="2.05948851735" />
+			<dynamics damping="5.0" friction="4.0" />
+			<parent link="${prefix}link4"/>
+			<child link="${prefix}link5"/>
+		</joint>
+	
+		<link name="${prefix}link6">  <!-- link6 left_base -->
+			<inertial> 
+				<mass value="2.796" />
+				<origin rpy="0 0 0" xyz="-0.000057   0.011938   0.023545" />
+				<inertia ixx="0.009259033" ixy="0.000011235" ixz="0.000001260"
+											iyy="0.007040723"  iyz="0.000600999"
+																izz="0.006307701" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://mira_description/meshes/mira/Link6.stl" />
+				</geometry>
+				<material name="blue"/>
+			</visual>
+			<collision>
+				<origin rpy="1.571 0 0" xyz="0 0.02 0" />
+				<geometry>
+					<cylinder length="0.128" radius="0.051" />
+				</geometry>
+			</collision>
+		</link> 
+
+		<joint name="${prefix}joint6" type="revolute">  <!-- joint6 -->
+			<origin rpy="-1.5708 0 0" xyz="0 0 0" />
+			<axis xyz="0 0 1" />
+			<limit lower="-4.7124" upper="4.7124" effort="21" velocity="25.3" />
+			<safety_controller k_position="100" k_velocity="2" soft_lower_limit="-4.0" soft_upper_limit="4.0" />
+			<dynamics damping="1.25" friction="1.25" />
+			<parent link="${prefix}link5"/>
+			<child link="${prefix}link6"/>
+		</joint>
+		
+		<link name="${prefix}link7">   
+			<inertial> 
+				<mass value="1.194" />
+				<origin rpy="0 0 0" xyz="0.000055  0.000468   0.041628" />
+				<inertia ixx="0.002520968" ixy="0.000000432" ixz="-0.000007917"
+											iyy="0.002521011"  iyz="-0.000025082"
+																izz="0.000916680" />
+			</inertial>
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://mira_description/meshes/mira/Link7.stl" />
+				</geometry>
+			</visual>
+			<collision>
+				<origin rpy="0 0 0" xyz="0 0 0.081" />
+				<geometry>
+					<cylinder length="0.041" radius="0.048" />
+				</geometry>
+			</collision>
+		</link> 
+
+		<joint name="${prefix}joint7" type="revolute">  <!-- joint7 --> 
+			<origin rpy="1.5708 0 0" xyz="0 0 0" />
+			<axis xyz="0 0 1" />
+			<limit lower="-6.2832" upper="6.2832" effort="10" velocity="10" />
+			<safety_controller k_position="10" k_velocity="1" soft_lower_limit="-4.0" soft_upper_limit="4.0" />
+			<dynamics damping="2" friction="2" />
+			<parent link="${prefix}link6"/>
+			<child link="${prefix}link7"/>
+		</joint> 
+
+		<link name = "${prefix}tool0"/>
+		<joint name="${prefix}link7_to_tool0" type="fixed">  <!-- joint7 --> 
+			<origin rpy="0 0 0" xyz="0 0 0.10" />
+			<parent link="${prefix}link7"/>
+			<child link="${prefix}tool0"/>
+		</joint> 
+
+		<link name = "${prefix}flange"/>
+		<joint name="${prefix}link7_to_flange" type="fixed">  <!-- joint7 --> 
+			<origin rpy="0 0 0" xyz="0 0 0.10" />
+			<parent link="${prefix}link7"/>
+			<child link="${prefix}flange"/>
+		</joint> 
+
+		<link name = "${prefix}ee_link"/>
+		<joint name="${prefix}flange_to_ee_link" type="fixed">  <!-- joint7 --> 
+			<origin rpy="0 0 0" xyz="0 0 0.10" />
+			<parent link="${prefix}link7"/>
+			<child link="${prefix}ee_link"/>
+		</joint> 
+
+	</xacro:macro>
+</robot>

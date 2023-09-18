@@ -1,0 +1,12 @@
+<launch>
+
+<arg name="dentist_camera" default="false" />
+<arg name="gripper_name" default="robotiq2f_85" /> <!-- robotiq2f_85, robotiq2f_140-->
+<arg name="model" default="$(find mira_picker)/urdf/mira_picker_$(arg gripper_name).urdf.xacro"/>
+
+<!-- <arg name="model" default="$(find realsense2_description)/urdf/test_d415_camera.urdf.xacro"/> -->
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model) dentist_camera:=$(dentist_camera)" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  </launch>

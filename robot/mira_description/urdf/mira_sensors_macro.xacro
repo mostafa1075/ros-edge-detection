@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="mira" >
+
+  <xacro:include filename="$(find realsense2_description)/urdf/_d415.urdf.xacro" />
+  <xacro:include filename="$(find mira_description)/urdf/mira_macro.xacro" />
+  
+  <!-- arm -->
+  <xacro:macro name="mira_robot_sensors" params="prefix wrist_cam_calibration:=true dentist_camera:=^">
+    <xacro:mira_robot prefix="${prefix}" parameter_file_name="mira_nominal"/>
+
+    <!-- For simulation of wrist camera -->
+    <xacro:unless value="${wrist_cam_calibration}">
+      <link name="$(arg prefix)intermediate_camera_link" />
+      <joint name="$(arg prefix)intermediate_camera_joint" type="fixed">
+          <parent link="$(arg prefix)link6" />
+          <child link = "$(arg prefix)intermediate_camera_link" />
+          <origin rpy="0.0 1.5708 3.14159" xyz="0.0115 0.073 -0.0423" />
+      </joint>
+
+      <xacro:sensor_d415 parent="${prefix}intermediate_camera_link" use_nominal_extrinsics="true">
+        <origin rpy="0 0 -0.0610865" xyz=" 0 0 0 "/>
+      </xacro:sensor_d415>
+    </xacro:unless>
+    
+    <!-- For use of calibrated wrist camera -->
+    <xacro:if value="${wrist_cam_calibration}">
+      <link name="${prefix}camera_calibration_link"/>
+      <joint name="${prefix}camera_calibration_joint" type="fixed">
+        <origin xyz="0.02 0.01 -0.04" rpy="-1.5708 -1.5708 0.0 " />  
+        <parent link="${prefix}link6" />
+        <child link="${prefix}camera_calibration_link" />
+      </joint>
+    </xacro:if>
+
+    <!-- Base cameras -->
+    <link name = "${prefix}base_camera_1_parent_link"/>
+    <joint name="${prefix}base_link_to_base_camera1_parent_link" type="fixed">
+      <origin rpy="0.0 0.0 -0.5074274" xyz=" 0.13019 -0.011751 0.037583 "/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base_camera_1_parent_link"/>
+    </joint> 
+
+    <xacro:sensor_d415 parent="${prefix}base_camera_1_parent_link" name="base_camera_1" use_nominal_extrinsics="true">
+      <origin rpy="0 -0.5162342 0" xyz="0 0 0"/>
+    </xacro:sensor_d415>
+
+    <link name = "${prefix}base_camera_2_parent_link"/>
+      <joint name="${prefix}base_link_to_base_camera_2_parent_link" type="fixed">
+      <origin rpy="0.0 0.0 -1.5707713" xyz=" 0.000 -0.117921 0.037837 "/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base_camera_2_parent_link"/>
+    </joint>
+
+    <xacro:sensor_d415 parent="${prefix}base_camera_2_parent_link" name="base_camera_2" use_nominal_extrinsics="true">
+      <origin rpy="0 -0.5759183 0" xyz="0 0 0 "/> 
+    </xacro:sensor_d415>
+
+    <xacro:sensor_d415 parent="${prefix}base_link" name="base_camera_3" use_nominal_extrinsics="true">
+      <origin rpy="3.1415759 -0.5760 -2.7051773" xyz="-0.117849 -0.005996 0.058549"/>
+    </xacro:sensor_d415>
+
+    <link name = "${prefix}base_camera_3_color_optical_frame_rotated"/>
+    <joint name="${prefix}base_camera_3_rotation_joint" type="fixed">  
+      <origin rpy="0.0 0.0 3.14159" xyz="0.0 0.0 0.0"/>
+      <parent link="${prefix}base_camera_3_color_optical_frame"/>
+      <child link="${prefix}base_camera_3_color_optical_frame_rotated"/>
+    </joint> 
+
+    <!-- Radar -->
+    <link name = "${prefix}radar_link"/>
+    <joint name="${prefix}base_link_to_radar_link_joint" type="fixed">
+      <origin rpy="0.0 0.0 2.356" xyz="-0.07 -0.1 0.05"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}radar_link"/>
+    </joint> 
+
+  <!-- Dental wrist camera-->
+  <xacro:if value="${dentist_camera}">
+    <link name="${prefix}dentist_camera_housing">
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0.0 0."/>
+				<geometry>
+					<box size="0.085 0.11 0.035"/>
+				</geometry>
+				<material name="white"/>
+			</visual>
+			<collision>
+				<origin rpy="0 0 0" xyz="0 0.0 0."/>
+				<geometry>
+					<box size="0.085 0.11 0.035"/>
+				</geometry>
+				<material name="white"/>
+			</collision>
+		</link>
+		<joint name="${prefix}link7_to_dentist_camera_housing" type="fixed"> 
+			<origin rpy="0 0 0" xyz="0 -0.05 0.08" />
+			<parent link="${prefix}link7"/>
+			<child link="${prefix}dentist_camera_housing"/>
+		</joint>
+  </xacro:if>
+
+  </xacro:macro>
+
+
+</robot>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+  <xacro:arg name="prefix" default=""/>
+
+  <!-- mira -->
+  <xacro:include filename="$(find mira_picker)/urdf/mira_picker_macro.xacro"/>
+  <xacro:include filename="$(find mira_gazebo)/robots/mira.gazebo.xacro"/>
+  <xacro:include filename="$(find mira_gazebo)/sensors/realsense_gazebo.xacro"/>
+
+  <!-- arm -->
+  <xacro:mira_picker prefix="$(arg prefix)" />
+  <xacro:mira_arm_gazebo prefix="$(arg prefix)"  transmission_hw_interface="$(arg transmission_hw_interface)" />
+  <xacro:realsense_gazebo prefix="$(arg prefix)"  />
+
+</robot>

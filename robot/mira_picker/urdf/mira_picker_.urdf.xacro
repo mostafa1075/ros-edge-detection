@@ -1,0 +1,24 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="dentist_camera" default="false"/>
+
+  <xacro:include filename="$(find mira_picker)/urdf/mira_picker_macro.xacro" />
+  <xacro:mira_picker prefix="$(arg prefix)" wrist_cam_calibration="true" dentist_camera="$(arg dentist_camera)"/>
+  
+  <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_model_macro.xacro" />
+  <xacro:include filename="$(find mira_picker)/urdf/tcp.xacro" />
+  <xacro:robotiq_arg2f_85 prefix=""/>
+  
+  <xacro:arg name="gripper_yaw" default="-0.262"/>
+  <xacro:arg name="tcp_z_offset" default="0.166"/>
+  <xacro:arg name="base_adapter_thickness" default="0.018"/>
+  
+  <joint name="robotiq_flange_joint" type="fixed">
+      <origin xyz="0 0.0 $(arg base_adapter_thickness)" rpy="0 0 $(arg gripper_yaw)"/>
+      <parent link="$(arg prefix)ee_link" />
+      <child link="robotiq_arg2f_base_link" />
+  </joint>
+
+</robot>

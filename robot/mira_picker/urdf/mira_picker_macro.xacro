@@ -1,0 +1,44 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+    <xacro:arg name="prefix" default=""/>
+
+    <xacro:include filename="$(find mira_description)/urdf/mira_sensors_macro.xacro" />
+
+    <xacro:macro name="mira_picker" params="prefix wrist_cam_calibration=true dentist_camera=false">
+        <xacro:mira_robot_sensors prefix="${prefix}" wrist_cam_calibration="${wrist_cam_calibration}" dentist_camera="${dentist_camera}"/>     
+
+        <link name="${prefix}table_calibration">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mira_picker/meshes/table/visual/table_calibration.stl"/>
+                </geometry>
+                <material name="white"/>
+                </visual>
+            <!-- <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mira_picker/meshes/table/collision/table_calibration.stl"/>
+                </geometry>
+            </collision> -->
+        </link>
+        <link name="world" />
+        <joint name="world_joint" type="fixed">
+            <parent link="world" />
+            <child link = "${prefix}root_link" />
+            <origin xyz="0.0 0.0 0.391" rpy="0.0 0.0 0.0" />
+        </joint>
+        <joint name="${prefix}baselink_table" type="fixed">
+            <origin rpy="0 0 0.0" xyz="0 0 -0.310"/>
+            <parent link="${prefix}root_link"/>
+            <child link="${prefix}table_calibration"/>
+        </joint>
+        <link name="threejs_link" />
+        <joint name="threejs_joint" type="fixed">
+            <parent link="world" />
+            <child link = "${prefix}threejs_link" />
+            <origin xyz="0.0 0.0 0.391" rpy="1.5708 0.0 0.0" />
+        </joint>
+    </xacro:macro>
+</robot>

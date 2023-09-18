@@ -1,0 +1,12 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <link name="$(arg prefix)gripper_tcp">
+  </link>
+  <joint name="$(arg prefix)gripper_tcp_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0 0.24"/>
+      <parent link="$(arg prefix)ee_link"/>
+      <child link="$(arg prefix)gripper_tcp"/>
+  </joint>
+
+</robot>

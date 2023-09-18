@@ -1,0 +1,62 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="dentist_camera" default="false"/>
+
+  <xacro:include filename="$(find mira_picker)/urdf/mira_picker_macro.xacro" />
+  <xacro:mira_picker prefix="$(arg prefix)" wrist_cam_calibration="true" dentist_camera="$(arg dentist_camera)"/>
+  
+  <xacro:include filename="$(find robotiq_2f_140_gripper_visualization)/urdf/robotiq_arg2f_140_model_macro.xacro" />
+  <xacro:include filename="$(find mira_picker)/urdf/tcp.xacro" />
+  <xacro:robotiq_arg2f_140 prefix=""/>
+  
+  <xacro:arg name="gripper_yaw" default="-1.57"/>
+  <!-- <xacro:arg name="tcp_yaw" default="0"/> -->
+  <!-- <xacro:arg name="tcp_z_offset" default="0.24"/> -->
+  <xacro:arg name="base_adapter_thickness" default="0.018"/>
+  <xacro:property name="half_robotiq_base_adapter" value="${$(arg base_adapter_thickness)/2}"/>
+  <xacro:property name="z_flange_to_base_adapter" value="${0.01 + half_robotiq_base_adapter}"/>
+
+  <link name="$(arg prefix)robotiq_base_adapter">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0.0 0."/>
+            <geometry>
+                <cylinder radius="0.035" length="$(arg base_adapter_thickness)"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.4 0.4 0.4 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0.0 0."/>
+            <geometry>
+                <cylinder radius="0.035" length="$(arg base_adapter_thickness)"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.4 0.4 0.4 1.0"/>
+            </material>
+        </collision>
+  </link>
+  
+  <joint name="robotiq_adapter_joint" type="fixed">
+      <origin xyz="0 0.0 ${z_flange_to_base_adapter}" rpy="0 0 0"/>
+      <parent link="$(arg prefix)ee_link" />
+      <child link="$(arg prefix)robotiq_base_adapter" />
+  </joint>
+
+  <joint name="robotiq_flange_joint" type="fixed">
+      <origin xyz="0 0.0 ${half_robotiq_base_adapter}" rpy="0 0 $(arg gripper_yaw)"/>
+      <parent link="$(arg prefix)robotiq_base_adapter" />
+      <child link="$(arg prefix)robotiq_arg2f_base_link" />
+  </joint>
+
+  <!-- <link name="$(arg prefix)gripper_tcp">
+  </link>
+  <joint name="$(arg prefix)gripper_tcp_joint" type="fixed">
+      <origin rpy="0 0 $(arg tcp_yaw)" xyz="0 0 $(arg tcp_z_offset)"/>
+      <parent link="$(arg prefix)ee_link"/>
+      <child link="$(arg prefix)gripper_tcp"/>
+  </joint> -->
+
+</robot>

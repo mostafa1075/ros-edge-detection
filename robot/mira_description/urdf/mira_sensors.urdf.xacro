@@ -1,0 +1,20 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="mira" >
+
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="dentist_camera" default="false"/>
+
+  <xacro:include filename="$(find mira_description)/urdf/mira_sensors_macro.xacro" />
+  <!-- arm -->
+  
+  <xacro:mira_robot_sensors prefix="$(arg prefix)" dentist_camera="$(arg dentist_camera)"/>
+
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "$(arg prefix)root_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+  
+
+</robot>
