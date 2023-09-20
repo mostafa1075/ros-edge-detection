@@ -3,8 +3,9 @@
 
 using namespace edge_detection;
 
+EdgeDetector::EdgeDetector(int threshold): threshold(threshold) {}
 
-void EdgeDetector::detect(Mat &img, Mat &detected_edges, int threshold)
+void EdgeDetector::detect(Mat &img, Mat &detected_edges)
 {
 	Mat img_gray, green;
 

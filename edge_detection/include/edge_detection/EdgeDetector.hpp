@@ -8,8 +8,10 @@ namespace edge_detection
 {
 	class EdgeDetector
 	{
+		int threshold;
 	public:
-		void detect(Mat &img, Mat &detected_edges, int threshold = 50);
+		EdgeDetector(int threshold);
+		void detect(Mat &img, Mat &detected_edges);
 	};
 
 }

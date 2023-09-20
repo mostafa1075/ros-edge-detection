@@ -144,9 +144,9 @@ add_executable(edge_detection_test_client tests/EdgeDetectorTestClient.cpp)
 target_include_directories(edge_detection_test_client PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(edge_detection_test_client TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-add_executable(edge_detection_server src/EdgeDetectorService.cpp)
-target_include_directories(edge_detection_server PUBLIC ${INCLUDE_DIRECTORIES} )
-target_link_libraries(edge_detection_server TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(edge_detection_service src/EdgeDetectorService.cpp)
+target_include_directories(edge_detection_service PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_service TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -219,6 +219,16 @@ target_link_libraries(edge_detection_server TARGET_NAME ${catkin_LIBRARIES} ${Op
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+
+## Mark launch files for installation
+install(DIRECTORY launch
+DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+## Mark rviz files for installation
+install(DIRECTORY rviz
+DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
 #############
 ## Testing ##
