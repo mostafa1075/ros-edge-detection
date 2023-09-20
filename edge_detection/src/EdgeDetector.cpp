@@ -4,7 +4,7 @@
 using namespace edge_detection;
 
 
-void EdgeDetector::detect(Mat &img, Mat &detected_edges, int threshold = 50)
+void EdgeDetector::detect(Mat &img, Mat &detected_edges, int threshold)
 {
 	Mat img_gray, green;
 
@@ -19,24 +19,3 @@ void EdgeDetector::detect(Mat &img, Mat &detected_edges, int threshold = 50)
 	green.copyTo(detected_edges, img_gray);
 }
 
-/**
- * For testing the edge detection with sample images. Needs image file path as argument.
- */
-int main(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		ROS_INFO("Missing file argument");
-		return 1;
-	}
-
-	edge_detection::EdgeDetector detector;
-	Mat img = imread(argv[1]), detected_edges;
-
-	detector.detect(img, detected_edges);
-
-	imshow("Test Display", detected_edges);
-	waitKey(0);
-
-	return 0;
-}

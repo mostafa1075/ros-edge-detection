@@ -10,9 +10,12 @@ project(edge_detection)
 set(OpenCV_DIR "/usr/lib/x86_64-linux-gnu/cmake/opencv4/") 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  cv_bridge
   OpenCV REQUIRED
+  sensor_msgs
   geometry_msgs
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -56,11 +59,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  DetectEdges.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -70,10 +72,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  sensor_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -134,9 +136,13 @@ add_library(TARGET_NAME SHARED ${SOURCES})
 target_include_directories(TARGET_NAME PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(TARGET_NAME) # fill this up with the dependencies you want for eg opencv
 
-add_executable(edge_detection_bin src/EdgeDetector.cpp )
-target_include_directories(edge_detection_bin PUBLIC ${INCLUDE_DIRECTORIES} )
-target_link_libraries(edge_detection_bin TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(edge_detection_test tests/EdgeDetectorTest.cpp )
+target_include_directories(edge_detection_test PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_test TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(edge_detection_server src/EdgeDetectorService.cpp )
+target_include_directories(edge_detection_server PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_server TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
