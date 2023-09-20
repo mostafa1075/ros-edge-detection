@@ -140,7 +140,11 @@ add_executable(edge_detection_test tests/EdgeDetectorTest.cpp )
 target_include_directories(edge_detection_test PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(edge_detection_test TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-add_executable(edge_detection_server src/EdgeDetectorService.cpp )
+add_executable(edge_detection_test_client tests/EdgeDetectorTestClient.cpp)
+target_include_directories(edge_detection_test_client PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_test_client TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(edge_detection_server src/EdgeDetectorService.cpp)
 target_include_directories(edge_detection_server PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(edge_detection_server TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 

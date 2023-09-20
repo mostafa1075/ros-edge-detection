@@ -16,7 +16,7 @@ bool detect(DetectEdges::Request &req, DetectEdges::Response &res) {
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "edge_detection_server");
+    ros::init(argc, argv, "edge_detection_service");
     ros::NodeHandle n;
 
     ros::ServiceServer service = n.advertiseService("detect_edges", detect);
