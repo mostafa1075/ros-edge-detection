@@ -1,0 +1,8 @@
+<launch>
+
+  <arg name="path"/>    
+  <arg name="threshold" default="50" />
+
+  <node name="edge_detector_test" pkg="edge_detection" type="edge_detection_test" args="$(arg path) $(arg threshold)" required="true" />
+
+</launch>

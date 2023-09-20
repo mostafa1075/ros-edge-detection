@@ -5,7 +5,7 @@
  */
 int main(int argc, char *argv[])
 {
-	if (argc != 2)
+	if (argc != 3)
 	{
 		return 1;
 	}
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	edge_detection::EdgeDetector detector;
 	Mat img = imread(argv[1]), detected_edges;
 
-	detector.detect(img, detected_edges);
+	detector.detect(img, detected_edges, atoi(argv[2]));
 
 	imshow("Test Display", detected_edges);
 	waitKey(0);
