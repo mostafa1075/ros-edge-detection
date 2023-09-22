@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="threshold" default="50" />
+  <arg name="superimposed" default="false"/> 
+  <arg name="rvizconfig" default="$(find edge_detection)/rviz/robot_ros.rviz"/>
+  <arg name="dentist_camera" default="false" />
+  <arg name="gripper_name" default="robotiq2f_140" /> <!-- robotiq2f_85, robotiq2f_140-->
+  <arg name="model" default="$(find mira_picker)/urdf/mira_picker_$(arg gripper_name).urdf.xacro"/>
+
+  <param name="robot_description" command="$(find xacro )/xacro $(arg model) dentist_camera:=$(arg dentist_camera)" />
+
+  <node name="edge_detector_service" pkg="edge_detection" type="edge_detection_service" args="$(arg threshold) $(arg superimposed)" required="true" />
+  <node name="edge_detection_3d_client" pkg="edge_detection" type="edge_detection_3d_client" required="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+</launch>

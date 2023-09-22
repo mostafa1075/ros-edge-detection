@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   std_msgs
   message_generation
+  message_filters
 )
 
 ## System dependencies are found with CMake's conventions
@@ -131,8 +132,9 @@ include_directories(
 	include
 )
 
-set(SOURCES ${CPP_FILES})
+set(SOURCES ${PROJECT_SOURCE_DIR}/src/EdgeDetector.cpp)
 add_library(TARGET_NAME SHARED ${SOURCES})
+add_library(TARGET_3D_NAME SHARED ${SOURCES} ${PROJECT_SOURCE_DIR}/src/PointCloudCreator.cpp)
 target_include_directories(TARGET_NAME PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(TARGET_NAME) # fill this up with the dependencies you want for eg opencv
 
@@ -147,6 +149,11 @@ target_link_libraries(edge_detection_test_client TARGET_NAME ${catkin_LIBRARIES}
 add_executable(edge_detection_service src/EdgeDetectorService.cpp)
 target_include_directories(edge_detection_service PUBLIC ${INCLUDE_DIRECTORIES} )
 target_link_libraries(edge_detection_service TARGET_NAME ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(edge_detection_3d_client src/EdgeDetector3D.cpp)
+target_include_directories(edge_detection_3d_client PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_3d_client TARGET_3D_NAME  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
