@@ -26,13 +26,13 @@ In order to detect edges in an image launch the `basic.launch` file:
 ```
 roslaunch edge_detection basic.launch path:=<path to image> threshold:=<optional edge detection threshold> blur_kernel:=<optional blur kernel size>
 ```
-The optional blur kernel size and the edge detection threshold are passed as arguments as needed. However, the default values work well for this step and the next ones.
+The optional blur kernel size and the edge detection threshold are passed as arguments as needed. However, the default values work well for this step and for the next ones.
 
 The implementation steps are:
 1. The image is blurred in order to remove any noise that would be detected as false edges. A median blurring filter is applied which works well with salt and pepper noise. It also doesn't impact the detection of true edges as its smoothing effect on edges is small. 
 2. the Canny edge detector is applied which relies on the image intensity gradients. 
 
-A possible improvement would be a noise reduction method that balances between removing noise and maintaining fine details needed for edge detection.
+A possible improvement would be a noise reduction method that balances between removing noise and maintaining the fine details needed for edge detection.
 ### 2. Vision_ROS: 
 
 <p align="center">
