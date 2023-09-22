@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "edge_detection_service");
     ros::NodeHandle n;
 
-    EdgeDetector detector(atoi(argv[1]));
+    EdgeDetector detector(atoi(argv[1]), atoi(argv[2]));
 
     ros::ServiceServer service = n.advertiseService<DetectEdges::Request, DetectEdges::Response>(
         "detect_edges",

@@ -1,8 +1,9 @@
 <launch>
 
   <arg name="path" default="$(find edge_detection)/data/Image_2.png"/>    
-  <arg name="threshold" default="50" />
+  <arg name="threshold" default="100" />
+  <arg name="blur_kernel" default="3" />
 
-  <node name="edge_detector_test" pkg="edge_detection" type="edge_detection_test" args="$(arg path) $(arg threshold)" required="true" />
+  <node name="edge_detector_test" pkg="edge_detection" type="edge_detection_test" args="$(arg path) $(arg threshold) $(arg blur_kernel)" required="true" />
 
 </launch>

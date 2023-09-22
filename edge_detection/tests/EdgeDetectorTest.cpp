@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	edge_detection::EdgeDetector detector(atoi(argv[2]));
+	edge_detection::EdgeDetector detector(atoi(argv[2]), atoi(argv[3]));
 	Mat img = imread(argv[1]), detected_edges;
 
 	Mat superimposed;

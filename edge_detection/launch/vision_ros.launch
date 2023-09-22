@@ -1,9 +1,10 @@
 <launch>
 
-  <arg name="threshold" default="50" />
+  <arg name="threshold" default="100" />
+  <arg name="blur_kernel" default="3" />
   <arg name="rvizconfig" default="$(find edge_detection)/rviz/vision_ros.rviz"/>
 
-  <node name="edge_detector_service" pkg="edge_detection" type="edge_detection_service" args="$(arg threshold)" required="true" />
+  <node name="edge_detector_service" pkg="edge_detection" type="edge_detection_service" args="$(arg threshold) $(arg blur_kernel)" required="true" />
   <node name="edge_detector_client" pkg="edge_detection" type="edge_detection_test_client" required="true" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 
