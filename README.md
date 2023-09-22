@@ -30,7 +30,7 @@ The optional blur kernel size and the edge detection threshold are passed as arg
 
 The implementation steps are:
 1. The image is blurred in order to remove any noise that would be detected as false edges. A median blurring filter is applied which works well with salt and pepper noise. It also doesn't impact the detection of true edges as its smoothing effect on edges is small. 
-2. the Canny edge detector is applied which relies on the image intensity gradients. 
+2. The Canny edge detector is applied which relies on the image intensity gradients. 
 
 A possible improvement would be a noise reduction method that balances between removing noise and maintaining the fine details needed for edge detection.
 ### 2. Vision_ROS: 
@@ -57,7 +57,7 @@ rosbag play --clock -l <path to bagfile>
   <img src="media/robot_ros.gif" alt="animated" />
 </p>
 
-In this step we attempt to visualize the detected edges in 3D. Given a depth image:
+In this step, we attempt to visualize the detected edges in 3D. Given a depth image:
 1. Mask it using the detected edges.
 2. Unproject the pixel points using the camera intrinsics and the pixel's depth.
 3. Display the points in the optical camera frame.
