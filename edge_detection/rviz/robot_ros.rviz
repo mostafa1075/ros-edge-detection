@@ -366,7 +366,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 1
       Size (m): 0.009999999776482582
       Style: Points
       Topic: /camera/edges/points
@@ -402,7 +402,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.1819093227386475
+      Distance: 1.1539160013198853
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -410,17 +410,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.7487379312515259
-        Y: 0.027347631752490997
-        Z: 0.8104293942451477
+        X: 0.5815485119819641
+        Y: -0.390644907951355
+        Z: 0.8163906335830688
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8147966265678406
+      Pitch: 1.359796166419983
       Target Frame: <Fixed Frame>
-      Yaw: 1.5454051494598389
+      Yaw: 2.6054060459136963
     Saved: ~
 Window Geometry:
   Displays:
