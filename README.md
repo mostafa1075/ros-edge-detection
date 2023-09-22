@@ -31,7 +31,7 @@ The implementation steps are:
 1. The image is blurred in order to remove any noise that would be detected as false edges. A median blurring filter is applied which works well with salt and pepper noise. It also doesn't impact the detection of true edges as its smoothing effect on edges is small. 
 2. the Canny edge detector is applied which relies on the image intensity gradients. 
 
-
+A possible improvement would be a noise reduction method that balances between removing noise and maintaining fine details needed for edge detection.
 ### 2. Vision_ROS: 
 
 <p align="center">
